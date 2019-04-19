@@ -1,0 +1,23 @@
+# Dockerfile sample for Linux Form Scratch host machine
+
+FROM debian:stretch
+COPY ./utils/version-check.sh .
+COPY ./utils/sources.list /etc/apt/
+RUN ln -sf bash /bin/sh
+RUN echo 'alias ll="ls -l"' >> ~/.bashrc
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+	bison \
+	binutils \
+	gawk \
+	gcc  \
+	g++ \
+	make \
+	patch \
+	python3 \
+	texinfo \
+	xz-utils
+RUN mkdir mnt/lfs
+RUN export LFS=/mnt/lfs 
+
+RUN ./version-check.sh
+CMD /bin/sh
